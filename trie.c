@@ -49,7 +49,10 @@ int trie_add_record(trie* root, const char* str, int times)
 		} 
 		else if(p->next == NULL)
 		{
-			p->next = create_trie_node();
+			if(!(p->next = create_trie_node()))
+			{
+				return ADD_FAILED;
+			}
 			p = p->next;
 			p->value = str[0];
 			if(str[0] != '\0')
@@ -60,7 +63,10 @@ int trie_add_record(trie* root, const char* str, int times)
 		p = p->next;
 	}
 
-	root->children = create_trie_node();
+	if(!(root->children = create_trie_node()))
+	{
+		return ADD_FAILED;
+	}
 	root->children->value = str[0];
 	if(str[0] != '\0')
 		return trie_add_record(root->children, str + 1, times);

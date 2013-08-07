@@ -35,15 +35,20 @@ int main(int argc, char** argv)
 	{
 		line[strlen(line) - 1] = '\0';
 		n = trie_add_record(r, line, 1);
-		if(n == 1)
-			count++;
-		if(n > max)
+		if(n == ADD_FAILED)
+		{
+			if(add_failed_times++ % 1000 == 0)
+			{
+				printf("failed times: %d\n", add_failed_times);
+			}
+		}
+		else if(n > max)
 		{
 			max = n;
 			strcpy(max_words, line);
 		}
-		if(strcmp(line, "q") == 0)
-			break;
+		// if(strcmp(line, "q") == 0)
+		// 	break;
 	}
 
 	puts("complete!");
@@ -64,20 +69,4 @@ int main(int argc, char** argv)
 	}
 
 	return 0;
-
-
-	// trie_add_record(r, "helloworld", 1);
-	// if(NOT_EXIST == is_trie_member(r, "what"))
-	// 	puts("FALSE");
-	// else
-	// 	puts("TRUE");
-	// remove_trie_member(r, "helloworld");
-	// if(NOT_EXIST == is_trie_member(r, "helloworld"))
-	// 	puts("FALSE");
-	// else
-	// 	puts("TRUE");
-
-	// destroy_trie(r);
-
-	// return 0;
 }
